@@ -1,0 +1,7 @@
+@import '../src/sass/sequenceboard.scss';
+
+@font-face {
+    font-family: raleway-regular;
+    src: url('../src/fonts/Raleway-Regular.ttf');
+}
+  
