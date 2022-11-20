@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "parcel --port=3003 public/index.html"
+    "dev": "parcel --port=3003 --no-cache public/index.html"
   },
   "keywords": [],
   "author": "",

@@ -18,14 +18,9 @@ const readDeleteidentityCheck = q.Query(
 const createIdentityCheck = q.Query(
     q.Lambda(
         "values",
-        q.Let(
-            {
-                owner: q.Select(["data", "owner"], q.Var("values")),
-            },
-            q.Equals(
-                q.Var('owner'),
-                q.CurrentIdentity()
-            )
+        q.Equals(
+            q.Select(["data", "owner"], q.Var("values")),
+            q.CurrentIdentity()
         )
     )
 );
@@ -109,6 +104,12 @@ const applicationCreateIdentityCheck = q.Query(
     )
 );
 
+
+//Predicate functions specific to the accounts collection
+const accountsUpdateIdentityCheck = q.Query(
+    q.Lambda(["oldData", "newData", "ref"], q.Equals(q.CurrentIdentity(), q.Var("ref")))
+);
+
 const createAuthUserRole = q.CreateRole({
     name: "auth_user",
     privileges: [
@@ -117,11 +118,27 @@ const createAuthUserRole = q.CreateRole({
             actions: { call: true },
         },
         {
+            resource: q.Function("updatejobapplication"),
+            actions: { call: true },
+        },
+        {
+            resource: q.Function("deletejobapplication"),
+            actions: { call: true },
+        },
+        {
             resource: q.Function("getapplicationsbyowner"),
             actions: { call: true },
         },
         {
+            resource: q.Function("getallapplications"),
+            actions: { call: true },
+        },
+        {
             resource: q.Function("logout"),
+            actions: { call: true },
+        },
+                {
+            resource: q.Function("updatepassword"),
             actions: { call: true },
         },
         {
@@ -137,17 +154,49 @@ const createAuthUserRole = q.CreateRole({
             resource: q.Collection("accounts"),
             actions: {
                 read: true,
-                write: true,
+                write: accountsUpdateIdentityCheck,
             },
         },
         {
             resource: q.Index("applications_by_owner"),
             actions: { read: true },
         },
+        {
+            resource: q.Index("all_applications"),
+            actions: { read: true },
+        },
     ],
     membership: [
         {
             resource: q.Collection("accounts"),
+        },
+    ],
+});
+
+const createClientRole = q.CreateRole({
+    name: "client",
+    privileges: [
+        {
+            resource: q.Function("userlogin"),
+            actions: { call: true },
+        },
+        {
+            resource: q.Function("usersignup"),
+            actions: { call: true },
+        },
+        {
+            resource: q.Collection("accounts"),
+            actions: {
+                read: true,
+            },
+        },
+        {
+            resource: q.Index("all_accounts"),
+            actions: { read: true },
+        },
+        {
+            resource: q.Index("accounts_by_email"),
+            actions: { read: true },
         },
     ],
 });

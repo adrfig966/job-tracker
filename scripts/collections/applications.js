@@ -48,6 +48,37 @@ const createAddJobApplicationFunction = q.CreateFunction({
   )
 });
 
+const createUpdateJobApplicationFunction = q.CreateFunction({
+  name: "updatejobapplication",
+  role: null,
+  body: q.Query(
+    q.Lambda(
+      ["ref", "company", "position", "date", "status", "notes"],
+      q.Update(q.Ref(q.Collection("applications"), q.Var("ref")), {
+        data: {
+          company: q.Var("company"),
+          position: q.Var("position"),
+          date: q.Date(q.Var("date")),
+          status: q.Var("status"),
+          notes: q.Var("notes"),
+          owner: q.CurrentIdentity()
+        }
+      })
+    )
+  )
+});
+
+const createDeleteJobApplicationFunction = q.CreateFunction({
+  name: "deletejobapplication",
+  role: null,
+  body: q.Query(
+    q.Lambda(
+      ["ref"],
+      q.Delete(q.Ref(q.Collection("applications"), q.Var("ref")))
+    )
+  )
+});
+
 const createGetAllApplicationsFunction = q.CreateFunction({
   name: "getallapplications",
   role: null,
@@ -62,6 +93,7 @@ const createGetAllApplicationsFunction = q.CreateFunction({
   )
 });
 
+//Probably redudant as there is a predicate function for auth role
 const createGetApplicationsByOwnerFunction = q.CreateFunction({
   name: "getapplicationsbyowner",
   role: null,
@@ -85,4 +117,6 @@ module.exports = {
   createAddJobApplicationFunction,
   createGetAllApplicationsFunction,
   createGetApplicationsByOwnerFunction,
+  createUpdateJobApplicationFunction,
+  createDeleteJobApplicationFunction
 };

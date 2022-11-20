@@ -12,6 +12,8 @@ const AuthContext = createContext();
 const initialState = {
     user: null,
     error: null,
+    userclient: null,
+    test: "test",
 };
 
 const reducer = (state, action) => {
@@ -20,11 +22,14 @@ const reducer = (state, action) => {
             return {
                 ...state,
                 user: action.payload,
+                userclient: action.userclient,
+                test: "testnew",
             };
         case 'LOGOUT':
             return {
                 ...state,
                 user: null,
+                userclient: null,
             };
         case 'ERROR':
             return {
@@ -41,10 +46,16 @@ const AuthProvider = ({ children }) => {
 
     const login = async (email, password) => {
         try {
-            const res = await client.query(q.Login(q.Match(q.Index('accounts_by_email'), email), { password }));
+            const res = await client.query(q.Call('userlogin', email, password));
+
             dispatch({
                 type: 'LOGIN',
                 payload: res,
+                userclient: new faundadb.Client({
+                    secret: res.secret,
+                    endpoint: process.env.REACT_APP_FAUNA_ENDPOINT,
+                    domain: process.env.REACT_APP_FAUNA_DOMAIN,
+                })
             });
         } catch (error) {
             dispatch({
@@ -56,7 +67,8 @@ const AuthProvider = ({ children }) => {
 
     const logout = async () => {
         try {
-            await client.query(q.Logout(true));
+            await state.userclient.query(q.Logout(true));
+
             dispatch({
                 type: 'LOGOUT',
             });
@@ -71,6 +83,7 @@ const AuthProvider = ({ children }) => {
     const signup = async (email, password) => {
         try {
             const res = await client.query(q.Call('usersignup', email, password));
+
             dispatch({
                 type: 'LOGIN',
                 payload: res,
@@ -90,3 +103,6 @@ const AuthProvider = ({ children }) => {
     );
 }
 
+export const useAuth = () => useContext(AuthContext);
+
+export default AuthProvider;

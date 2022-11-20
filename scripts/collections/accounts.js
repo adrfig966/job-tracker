@@ -34,13 +34,27 @@ const createUserSignUpFunction = q.CreateFunction({
   )
 });
 
+const createUpdatePasswordFunction = q.CreateFunction({
+  name: "updatepassword",
+  role: null,
+  body: q.Query(
+    q.Lambda(
+      ["ref", "password"],
+      q.Update(q.Ref(q.Collection("accounts"), q.Var("ref")), {
+        credentials: { password: q.Var("password") }
+      })
+    )
+  )
+});
+  
+
 const createUserLoginFunction = q.CreateFunction({
   name: "userlogin",
   role: null,
   body: q.Query(
     q.Lambda(
       ["email", "password"],
-      q.Login(q.Match(q.Index("account_by_email"), q.Var("email")), {
+      q.Login(q.Match(q.Index("accounts_by_email"), q.Var("email")), {
         password: q.Var("password")
       })
     )
@@ -64,5 +78,6 @@ module.exports = {
   createIndexAccountsByEmail,
   createUserSignUpFunction,
   createUserLoginFunction,
-  createUserLogoutFunction
+  createUserLogoutFunction,
+  createUpdatePasswordFunction
 };

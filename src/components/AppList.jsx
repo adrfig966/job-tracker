@@ -1,33 +1,41 @@
-import faundadb, { query as q } from 'faunadb';
-import {useState, useEffect} from 'react';
+import { query as q } from "faunadb";
+import { useState, useEffect } from "react";
 
-console.log("Test", process.env.REACT_APP_FAUNA_KEY);
-const client = new faundadb.Client({ 
-    secret: process.env.REACT_APP_FAUNA_KEY,
-    endpoint: 'https://db.us.fauna.com',
-    domain: 'db.us.fauna.com'});
+import getClient from "../singletons/adminconnection";
+import { useAuth } from "../contexts/AuthContext";
+import { useAppsContext } from "../contexts/AppsContext";
 
 const ApplicationList = () => {
+  const adminClient = getClient();
+  //const [applications, setApplications] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const { state: authstate } = useAuth();
+  const { apps, getApps, error } = useAppsContext();
 
-    useEffect(() => {
-        let query = client.query(
-            q.Map(
-                q.Paginate(q.Match(q.Index('all_accounts'))),
-                q.Lambda(x => q.Get(x))
-            )
-        );
+  useEffect(() => {
+    const getApplications = async () => {
+      if(authstate.userclient) {
+        await getApps(authstate.userclient);
+        setLoading(false);
+      }
+    };
+    getApplications();
+  }, [authstate]);
 
-        query.then((ret) => {
-            console.log(ret);
-        });
+  useEffect(() => {
+    console.log('apps:',  apps);
+  }, [apps]);
 
-    }, []);
-
-    return (
-        <div className="application-list">
-        </div>
-    )
-
-}
+  return (
+    <div>
+      <h1>Applications</h1>
+      {loading ? (
+        <p>Loading...</p>
+      ) : (
+        apps.map((application) => <p>{application.data.company}</p>)
+      )}
+    </div>
+  );
+};
 
 export default ApplicationList;
