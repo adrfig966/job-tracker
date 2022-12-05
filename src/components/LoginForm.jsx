@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import { useAuth } from "../contexts/AuthContext";
 
 //Component to display login form
-const LoginForm = () => {
+const LoginForm = ({onlogin}) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -17,6 +17,7 @@ const LoginForm = () => {
       setLoading(true);
       await login(email, password);
       console.log(state);
+      onlogin();
     } catch {
       setError("Failed to log in");
     }
@@ -24,31 +25,34 @@ const LoginForm = () => {
   };
 
   return (
-    <div>
-      <h1>Login</h1>
+    <>
       {error && <p>{error}</p>}
-      <form onSubmit={handleSubmit}>
-        <label>
-          Email:
+      <form className="login-form" onSubmit={handleSubmit}>
+        <div className="form-group">
+          <label>
+            Email:
+          </label>
           <input
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
-        </label>
-        <label>
-          Password:
+        </div>
+        <div className="form-group">
+          <label>
+            Password:
+          </label>
           <input
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-        </label>
-        <button type="submit" disabled={loading}>
+        </div>
+        <button className="btn" type="submit" disabled={loading}>
           Login
         </button>
       </form>
-    </div>
+    </>
   );
 };
 

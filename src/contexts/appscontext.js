@@ -20,6 +20,16 @@ const reducer = (state, action) => {
                 ...state,
                 apps: [...state.apps, action.payload],
             };
+        case 'DELETEAPP':
+            return {
+                ...state,
+                apps: state.apps.filter(app => app.ref.value.id !== action.payload.ref.value.id),
+            };
+        case 'UPDATEAPP':
+            return {
+                ...state,
+                apps: state.apps.map(app => app.ref.value.id === action.payload.ref.value.id ? action.payload : app),
+            };
         case 'ERROR':
             return {
                 ...state,
@@ -72,6 +82,49 @@ const AppsProvider = ({ children }) => {
         }
     }
 
+    const deleteApp = async (userclient, appref) => {
+        try {
+            const res = await userclient.query(
+                q.Call("deletejobapplication", appref.value.id)
+            );
+
+            dispatch({
+                type: 'DELETEAPP',
+                payload: res,
+            });
+        }
+        catch (error) {
+            dispatch({
+                type: 'ERROR',
+                payload: error,
+            });
+        }
+    }
+
+    const updateApp = async (userclient, appref, app) => {
+        try {
+            const res = await userclient.query(
+                q.Update(
+                    q.Ref(q.Collection('applications'), appref.value.id),
+                    { data: app }
+                )
+            );
+            console.log("Update res", res);
+            dispatch({
+                type: 'UPDATEAPP',
+                payload: res,
+            });
+        }
+        catch (error) {
+            console.log(error);
+            dispatch({
+                type: 'ERROR',
+                payload: error,
+            });
+        }
+    }
+
+
 
     return (
         <AppsContext.Provider
@@ -80,6 +133,8 @@ const AppsProvider = ({ children }) => {
                 error: state.error,
                 getApps,
                 addApp,
+                deleteApp,
+                updateApp,
             }}
         >
             {children}

@@ -1,31 +1,39 @@
 import { query as q } from "faunadb";
 import { useState, useEffect } from "react";
-
+import { Modal } from "@mantine/core";
 import { useAuth } from "../contexts/AuthContext";
 import { useAppsContext } from "../contexts/AppsContext";
 
-const JobForm = () => {
+const JobForm = ({
+  updating = false,
+  appref,
+  initialcompany = "",
+  initialposition = "",
+  initialurl = "",
+  initialstatus = "Applied",
+  initialnotes = "",
+}) => {
   const { state: authstate } = useAuth();
-  const { apps, addApp } = useAppsContext();
-  const [company, setCompany] = useState("");
-  const [position, setPosition] = useState("");
-  const [url, setUrl] = useState("");
-  const [status, setStatus] = useState("");
-  const [notes, setNotes] = useState("");
+  const { apps, addApp, updateApp } = useAppsContext();
+  const [company, setCompany] = useState(initialcompany);
+  const [position, setPosition] = useState(initialposition);
+  const [url, setUrl] = useState(initialurl);
+  const [status, setStatus] = useState(initialstatus);
+  const [notes, setNotes] = useState(initialnotes);
   const [loading, setLoading] = useState(false);
+  const [isopen, setIsOpen] = useState(false);
   const [error, setError] = useState("");
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleCreate = async () => {
     try {
-      if(authstate.userclient) {
+      if (authstate.userclient) {
         setError("");
         setLoading(true);
 
         await addApp(authstate.userclient, [
           company,
           position,
-          '2022-11-13',
+          "2022-11-13",
           status,
           notes,
         ]);
@@ -36,57 +44,101 @@ const JobForm = () => {
     setLoading(false);
   };
 
+  const handleUpdate = async () => {
+    try {
+      if (authstate.userclient) {
+        setError("");
+        setLoading(true);
+
+        await updateApp(authstate.userclient, appref, {
+          company,
+          position,
+          status,
+          notes,
+        });
+      }
+    } catch {
+      setError("Failed to update job application");
+    }
+    setLoading(false);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (updating) {
+      handleUpdate();
+    } else {
+      handleCreate();
+    }
+  };
+
   return (
-    <div>
-      <h1>Create Job Application</h1>
+    <>
       {error && <p>{error}</p>}
-      <form onSubmit={handleSubmit}>
-        <label>
-          Company:
-          <input
-            type="text"
-            value={company}
-            onChange={(e) => setCompany(e.target.value)}
-          />
-        </label>
-        <label>
-          Position:
-          <input
-            type="text"
-            value={position}
-            onChange={(e) => setPosition(e.target.value)}
-          />
-        </label>
-        <label>
-          URL:
-          <input
-            type="text"
-            value={url}
-            onChange={(e) => setUrl(e.target.value)}
-          />
-        </label>
-        <label>
-          Status:
-          <select value={status} onChange={(e) => setStatus(e.target.value)}>
-            <option value="Applied">Applied</option>
-            <option value="Interviewing">Interviewing</option>
-            <option value="Offer">Offer</option>
-            <option value="Rejected">Rejected</option>
-          </select>
-        </label>
-        <label>
-          Notes:
-          <input
-            type="text"
-            value={notes}
-            onChange={(e) => setNotes(e.target.value)}
-          />
-        </label>
-        <button type="submit" disabled={loading}>
-          Submit
-        </button>
-      </form>
-    </div>
+      <button className="btn" type="submit" disabled={loading || !authstate.userclient} onClick={() => setIsOpen(true)}>
+        {authstate.userclient ? 'Add New Job' : 'Log in to add a job'}
+      </button>
+      <Modal title={<h6>Login</h6>} opened={isopen} onClose={() => setIsOpen(false)}>
+        <form className="application-form" onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label>
+              Company:
+            </label>
+            <input
+              type="text"
+              value={company}
+              onChange={(e) => setCompany(e.target.value)}
+            />
+          </div>
+          <div className="form-group">
+            <label>
+              Position:
+            </label>
+            <input
+              type="text"
+              value={position}
+              onChange={(e) => setPosition(e.target.value)}
+            />
+          </div>
+          <div className="form-group">
+            <label>
+              URL:
+            </label>
+            <input
+              type="text"
+              value={url}
+              onChange={(e) => setUrl(e.target.value)}
+            />
+          </div>
+          <div className="form-group">
+            <label>
+              Status:
+            </label>
+            <select value={status} onChange={(e) => setStatus(e.target.value)}>
+              <option value="Applied">Applied</option>
+              <option value="Interviewing">Interviewing</option>
+              <option value="Offer">Offer</option>
+              <option value="Rejected">Rejected</option>
+            </select>
+          </div>
+          <div className="form-group">
+            <label>
+              Notes:
+            </label>
+            <input
+              type="text"
+              value={notes}
+              onChange={(e) => setNotes(e.target.value)}
+            />
+          </div>
+          <div className="form-footer">
+            <button className="btn" type="submit" disabled={loading}>
+              Add
+            </button>
+          </div>
+        </form>
+      </Modal>
+    </>
   );
 };
 

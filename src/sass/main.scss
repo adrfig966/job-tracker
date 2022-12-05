@@ -1,0 +1,177 @@
+@tailwind base;
+
+@tailwind components;
+
+@tailwind utilities;
+
+@font-face {
+    font-family: raleway-regular;
+    src: url('../fonts/Raleway-Regular.ttf');
+}
+
+@font-face {
+    font-family: ptsans-regular;
+    src: url('../fonts/PTSans-Regular.ttf');
+}
+
+
+body {
+    @apply p-0 m-0 bg-secondary text-tertiary;
+}
+
+header {
+    @apply flex justify-between items-center mx-5 py-5;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'raleway-regular', sans-serif;
+}
+
+label {
+    @apply block text-sm font-bold mb-2;
+}
+
+input,
+select {
+    @apply appearance-none border-2 border-gray-200 rounded py-2 px-4 bg-transparent border-quaternary text-tertiary leading-tight focus:outline-none focus:bg-quaternary focus:border-primary;
+}
+
+.btn {
+    @apply border-quaternary border text-tertiary font-bold py-2 px-4 rounded;
+
+    font-family: 'raleway-regular';
+    letter-spacing: 2px;
+
+    &[disabled] {
+        @apply text-quaternary cursor-not-allowed;
+    }
+}
+
+.application-form {
+    @apply flex flex-wrap items-center;
+
+    .form-group {
+        @apply w-full py-4;
+
+
+        input,
+        select {
+            @apply w-full;
+        }
+    }
+    
+    .form-footer {
+        @apply w-full;
+    }
+}
+
+.edit-form {
+    .form-group {
+        @apply w-full py-4;
+
+
+        input,
+        select {
+            @apply w-full;
+        }
+    }
+    
+    .form-footer {
+        @apply w-full;
+    }
+}
+
+.mantine-Modal-modal {
+    @apply bg-primary text-tertiary;
+
+    .login-form {
+        @apply flex-col justify-center items-start;
+
+        .form-group {
+            @apply w-full px-0;
+
+            input {
+                @apply w-full;
+            }
+        }
+
+        .form-group + .form-group {
+            @apply mt-4;
+        }
+
+        .btn {
+            @apply w-full mt-6;
+        }
+    }
+}
+
+.application-list {
+    @apply py-4;
+
+    .position-details {
+        @apply text-tertiary font-bold;
+
+        font-family: 'ptsans-regular';
+        font-size: 30px;
+    }
+
+    .application-status {
+        @apply text-tertiary font-bold bg-secondary inline-block px-4 py-2 rounded-full;
+
+        //font-family: 'ptsans-regular';
+        font-size: 12px;
+    }
+
+    .list-container {
+        @apply py-4;
+    }
+
+    .application-list-item-row {
+        @apply flex justify-between items-center;
+    }
+
+    .application-list-item + .application-list-item {
+        @apply mt-4 border-t-2 border-quaternary pt-4;
+    }
+
+    .list-btn-group {
+        button {
+            @apply border rounded border-quaternary py-1 px-2;
+
+            font-family: 'raleway-regular';
+            letter-spacing: 2px;
+
+            &:first-of-type {
+                @apply rounded-tr-none rounded-br-none border-r-0;
+            }
+
+            &:last-of-type {
+                @apply rounded-tl-none rounded-bl-none;
+            }
+
+            svg {
+                @apply fill-current;
+
+                height: 15px;
+                width: 15px;
+            }
+        }
+    }
+}
+
+.summary-dashboard {
+    @apply bg-primary rounded-lg shadow-lg p-6 text-tertiary mx-5;
+
+    .login-form {
+        @apply flex flex-wrap items-end;
+    
+        .form-group {
+            @apply px-4;
+        }
+    }
+}

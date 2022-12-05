@@ -53,15 +53,13 @@ const createUpdateJobApplicationFunction = q.CreateFunction({
   role: null,
   body: q.Query(
     q.Lambda(
-      ["ref", "company", "position", "date", "status", "notes"],
+      ["ref", "company", "position", "status", "notes"],
       q.Update(q.Ref(q.Collection("applications"), q.Var("ref")), {
         data: {
           company: q.Var("company"),
           position: q.Var("position"),
-          date: q.Date(q.Var("date")),
           status: q.Var("status"),
           notes: q.Var("notes"),
-          owner: q.CurrentIdentity()
         }
       })
     )
