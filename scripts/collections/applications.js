@@ -1,9 +1,11 @@
-const faunadb = require('faunadb')
+const faunadb = require("faunadb");
 const { query: q } = faunadb;
 
 //Application Collection Setup
 
-const createApplicationsCollection = q.CreateCollection({ name: "applications" });
+const createApplicationsCollection = q.CreateCollection({
+  name: "applications",
+});
 
 const createIndexAllApplications = q.CreateIndex({
   name: "all_applications",
@@ -41,11 +43,11 @@ const createAddJobApplicationFunction = q.CreateFunction({
           date: q.Date(q.Var("date")),
           status: q.Var("status"),
           notes: q.Var("notes"),
-          owner: q.CurrentIdentity()
-        }
+          owner: q.CurrentIdentity(),
+        },
       })
     )
-  )
+  ),
 });
 
 const createUpdateJobApplicationFunction = q.CreateFunction({
@@ -60,10 +62,10 @@ const createUpdateJobApplicationFunction = q.CreateFunction({
           position: q.Var("position"),
           status: q.Var("status"),
           notes: q.Var("notes"),
-        }
+        },
       })
     )
-  )
+  ),
 });
 
 const createDeleteJobApplicationFunction = q.CreateFunction({
@@ -74,7 +76,7 @@ const createDeleteJobApplicationFunction = q.CreateFunction({
       ["ref"],
       q.Delete(q.Ref(q.Collection("applications"), q.Var("ref")))
     )
-  )
+  ),
 });
 
 const createGetAllApplicationsFunction = q.CreateFunction({
@@ -88,7 +90,7 @@ const createGetAllApplicationsFunction = q.CreateFunction({
         q.Lambda("X", q.Get(q.Var("X")))
       )
     )
-  )
+  ),
 });
 
 //Probably redudant as there is a predicate function for auth role
@@ -99,13 +101,14 @@ const createGetApplicationsByOwnerFunction = q.CreateFunction({
     q.Lambda(
       [],
       q.Map(
-        q.Paginate(q.Match(q.Index("applications_by_owner"), q.CurrentIdentity())),
+        q.Paginate(
+          q.Match(q.Index("applications_by_owner"), q.CurrentIdentity())
+        ),
         q.Lambda(["company", "ref"], q.Get(q.Var("ref")))
       )
     )
-  )
+  ),
 });
-
 
 module.exports = {
   createApplicationsCollection,
@@ -116,5 +119,5 @@ module.exports = {
   createGetAllApplicationsFunction,
   createGetApplicationsByOwnerFunction,
   createUpdateJobApplicationFunction,
-  createDeleteJobApplicationFunction
+  createDeleteJobApplicationFunction,
 };

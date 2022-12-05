@@ -73,10 +73,10 @@ const ApplicationList = () => {
           {app.ref.value.id == isupdating && (
             <div className="application-list-item-details">
               <EditForm
-              appref={app.ref}
-              initialposition={app.data.position}
-              initialstatus={app.data.status}
-              initialnotes={app.data.notes}
+                appref={app.ref}
+                initialposition={app.data.position}
+                initialstatus={app.data.status}
+                initialnotes={app.data.notes}
               />
             </div>
           )}

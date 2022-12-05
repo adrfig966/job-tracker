@@ -1,4 +1,4 @@
-const faunadb = require('faunadb')
+const faunadb = require("faunadb");
 const { query: q } = faunadb;
 
 //Account Collection Setup
@@ -28,10 +28,10 @@ const createUserSignUpFunction = q.CreateFunction({
       ["email", "password"],
       q.Create(q.Collection("accounts"), {
         credentials: { password: q.Var("password") },
-        data: { email: q.Var("email") }
+        data: { email: q.Var("email") },
       })
     )
-  )
+  ),
 });
 
 const createUpdatePasswordFunction = q.CreateFunction({
@@ -41,12 +41,11 @@ const createUpdatePasswordFunction = q.CreateFunction({
     q.Lambda(
       ["ref", "password"],
       q.Update(q.Ref(q.Collection("accounts"), q.Var("ref")), {
-        credentials: { password: q.Var("password") }
+        credentials: { password: q.Var("password") },
       })
     )
-  )
+  ),
 });
-  
 
 const createUserLoginFunction = q.CreateFunction({
   name: "userlogin",
@@ -55,21 +54,16 @@ const createUserLoginFunction = q.CreateFunction({
     q.Lambda(
       ["email", "password"],
       q.Login(q.Match(q.Index("accounts_by_email"), q.Var("email")), {
-        password: q.Var("password")
+        password: q.Var("password"),
       })
     )
-  )
+  ),
 });
 
 const createUserLogoutFunction = q.CreateFunction({
   name: "logout",
   role: null,
-  body: q.Query(
-    q.Lambda(
-      [],
-      q.Logout(true)
-    )
-  )
+  body: q.Query(q.Lambda([], q.Logout(true))),
 });
 
 module.exports = {
@@ -79,5 +73,5 @@ module.exports = {
   createUserSignUpFunction,
   createUserLoginFunction,
   createUserLogoutFunction,
-  createUpdatePasswordFunction
+  createUpdatePasswordFunction,
 };

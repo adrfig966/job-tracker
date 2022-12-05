@@ -75,15 +75,22 @@ const JobForm = ({
   return (
     <>
       {error && <p>{error}</p>}
-      <button className="btn" type="submit" disabled={loading || !authstate.userclient} onClick={() => setIsOpen(true)}>
-        {authstate.userclient ? 'Add New Job' : 'Log in to add a job'}
+      <button
+        className="btn"
+        type="submit"
+        disabled={loading || !authstate.userclient}
+        onClick={() => setIsOpen(true)}
+      >
+        {authstate.userclient ? "Add New Job" : "Log in to add a job"}
       </button>
-      <Modal title={<h6>Login</h6>} opened={isopen} onClose={() => setIsOpen(false)}>
+      <Modal
+        title={<h6>Login</h6>}
+        opened={isopen}
+        onClose={() => setIsOpen(false)}
+      >
         <form className="application-form" onSubmit={handleSubmit}>
           <div className="form-group">
-            <label>
-              Company:
-            </label>
+            <label>Company:</label>
             <input
               type="text"
               value={company}
@@ -91,9 +98,7 @@ const JobForm = ({
             />
           </div>
           <div className="form-group">
-            <label>
-              Position:
-            </label>
+            <label>Position:</label>
             <input
               type="text"
               value={position}
@@ -101,9 +106,7 @@ const JobForm = ({
             />
           </div>
           <div className="form-group">
-            <label>
-              URL:
-            </label>
+            <label>URL:</label>
             <input
               type="text"
               value={url}
@@ -111,9 +114,7 @@ const JobForm = ({
             />
           </div>
           <div className="form-group">
-            <label>
-              Status:
-            </label>
+            <label>Status:</label>
             <select value={status} onChange={(e) => setStatus(e.target.value)}>
               <option value="Applied">Applied</option>
               <option value="Interviewing">Interviewing</option>
@@ -122,9 +123,7 @@ const JobForm = ({
             </select>
           </div>
           <div className="form-group">
-            <label>
-              Notes:
-            </label>
+            <label>Notes:</label>
             <input
               type="text"
               value={notes}

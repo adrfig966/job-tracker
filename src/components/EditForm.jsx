@@ -49,9 +49,7 @@ const EditForm = ({
       {error && <p>{error}</p>}
       <form className="edit-form" onSubmit={handleSubmit}>
         <div className="form-group">
-          <label>
-            Position:
-          </label>
+          <label>Position:</label>
           <input
             type="text"
             value={position}
@@ -59,9 +57,7 @@ const EditForm = ({
           />
         </div>
         <div className="form-group">
-          <label>
-            URL:
-          </label>
+          <label>URL:</label>
           <input
             type="text"
             value={url}
@@ -69,9 +65,7 @@ const EditForm = ({
           />
         </div>
         <div className="form-group">
-          <label>
-            Status:
-          </label>
+          <label>Status:</label>
           <select value={status} onChange={(e) => setStatus(e.target.value)}>
             <option value="Applied">Applied</option>
             <option value="Interviewing">Interviewing</option>
@@ -80,9 +74,7 @@ const EditForm = ({
           </select>
         </div>
         <div className="form-group">
-          <label>
-            Notes:
-          </label>
+          <label>Notes:</label>
           <input
             type="text"
             value={notes}

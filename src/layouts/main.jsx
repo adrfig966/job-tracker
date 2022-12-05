@@ -8,8 +8,8 @@ export default function Layout() {
     <>
       <Header />
       <div className="summary-dashboard">
-          <ApplicationList />
-          <JobForm />
+        <ApplicationList />
+        <JobForm />
       </div>
     </>
   );

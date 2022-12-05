@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import { useAuth } from "../contexts/AuthContext";
 
 //Component to display login form
-const LoginForm = ({onlogin}) => {
+const LoginForm = ({ onlogin }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -29,9 +29,7 @@ const LoginForm = ({onlogin}) => {
       {error && <p>{error}</p>}
       <form className="login-form" onSubmit={handleSubmit}>
         <div className="form-group">
-          <label>
-            Email:
-          </label>
+          <label>Email:</label>
           <input
             type="email"
             value={email}
@@ -39,9 +37,7 @@ const LoginForm = ({onlogin}) => {
           />
         </div>
         <div className="form-group">
-          <label>
-            Password:
-          </label>
+          <label>Password:</label>
           <input
             type="password"
             value={password}
