@@ -18,6 +18,7 @@ const createIndexAccountsByEmail = q.CreateIndex({
   terms: [{ field: ["email"] }],
   values: [{ field: ["ref"] }],
   serialized: true,
+  unique: true,
 });
 
 const createUserSignUpFunction = q.CreateFunction({
@@ -25,11 +26,19 @@ const createUserSignUpFunction = q.CreateFunction({
   role: null,
   body: q.Query(
     q.Lambda(
-      ["email", "password"],
-      q.Create(q.Collection("accounts"), {
-        credentials: { password: q.Var("password") },
-        data: { email: q.Var("email") },
-      })
+      ["email", "password", "confirmpassword"],
+      q.If(
+        q.Equals(q.Var("password"), q.Var("confirmpassword")),
+        q.Create(q.Collection("accounts"), {
+          credentials: {
+            password: q.Var("password"),
+          },
+          data: {
+            email: q.Var("email"),
+          },
+        }),
+        q.Abort("Passwords do not match")
+      )
     )
   ),
 });

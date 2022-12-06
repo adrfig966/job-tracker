@@ -35,12 +35,12 @@ const createAddJobApplicationFunction = q.CreateFunction({
   role: null,
   body: q.Query(
     q.Lambda(
-      ["company", "position", "date", "status", "notes"],
+      ["company", "position", "status", "notes"],
       q.Create(q.Collection("applications"), {
         data: {
           company: q.Var("company"),
           position: q.Var("position"),
-          date: q.Date(q.Var("date")),
+          date: q.ToDate(q.Now()),
           status: q.Var("status"),
           notes: q.Var("notes"),
           owner: q.CurrentIdentity(),

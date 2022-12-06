@@ -13,7 +13,6 @@ const initialState = {
   user: null,
   error: null,
   userclient: null,
-  test: "test",
 };
 
 const reducer = (state, action) => {
@@ -23,7 +22,6 @@ const reducer = (state, action) => {
         ...state,
         user: action.payload,
         userclient: action.userclient,
-        test: "testnew",
       };
     case "LOGOUT":
       return {
@@ -80,13 +78,22 @@ const AuthProvider = ({ children }) => {
     }
   };
 
-  const signup = async (email, password) => {
+  const signup = async (email, password, confirmpassword) => {
     try {
-      const res = await client.query(q.Call("usersignup", email, password));
+      await client.query(
+        q.Call("usersignup", email, password, confirmpassword)
+      );
+      const res = await client.query(q.Call("userlogin", email, password));
+      console.log("res", res);
 
       dispatch({
         type: "LOGIN",
         payload: res,
+        userclient: new faundadb.Client({
+          secret: res.secret,
+          endpoint: process.env.REACT_APP_FAUNA_ENDPOINT,
+          domain: process.env.REACT_APP_FAUNA_DOMAIN,
+        }),
       });
     } catch (error) {
       dispatch({

@@ -42,6 +42,8 @@ const ApplicationList = () => {
       return <p>Log in to view your applications</p>;
     } else if (loading) {
       return <div>Loading...</div>;
+    } else if (apps.length === 0) {
+      return <p>No applications found</p>;
     } else {
       let applist = apps.map((app) => (
         <div className="application-list-item" key={app.ref.value.id}>

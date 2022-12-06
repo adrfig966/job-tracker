@@ -30,13 +30,7 @@ const JobForm = ({
         setError("");
         setLoading(true);
 
-        await addApp(authstate.userclient, [
-          company,
-          position,
-          "2022-11-13",
-          status,
-          notes,
-        ]);
+        await addApp(authstate.userclient, [company, position, status, notes]);
       }
     } catch {
       setError("Failed to create job application");
@@ -84,7 +78,7 @@ const JobForm = ({
         {authstate.userclient ? "Add New Job" : "Log in to add a job"}
       </button>
       <Modal
-        title={<h6>Login</h6>}
+        title={<h6>Add new job</h6>}
         opened={isopen}
         onClose={() => setIsOpen(false)}
       >
