@@ -17,12 +17,19 @@ const LoginForm = ({ onlogin }) => {
       setLoading(true);
       await login(email, password);
       console.log(state);
-      onlogin();
     } catch {
       setError("Failed to log in");
     }
     setLoading(false);
   };
+
+  useEffect(() => {
+    if (state.user) {
+      onlogin();
+    } else if (state.error) {
+      setError("Failed to log in");
+    }
+  }, [state]);
 
   return (
     <>

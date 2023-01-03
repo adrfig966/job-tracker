@@ -12,11 +12,15 @@ const RegForm = ({ onreg }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (password !== confirmpassword) {
+      return setError("Passwords do not match");
+    }
+
     try {
       setError("");
       setLoading(true);
       await signup(email, password, confirmpassword);
-      onreg();
     } catch {
       setError("Failed to sign up");
     }
@@ -24,7 +28,11 @@ const RegForm = ({ onreg }) => {
   };
 
   useEffect(() => {
-    console.log(state);
+    if (state.user) {
+      onreg();
+    } else if (state.error) {
+      setError("Failed to sign up");
+    }
   }, [state]);
 
   return (
