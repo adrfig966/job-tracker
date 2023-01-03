@@ -48,10 +48,16 @@ const createUpdatePasswordFunction = q.CreateFunction({
   role: null,
   body: q.Query(
     q.Lambda(
-      ["ref", "password"],
-      q.Update(q.Ref(q.Collection("accounts"), q.Var("ref")), {
-        credentials: { password: q.Var("password") },
-      })
+      ["password", "confirmpassword"],
+      q.If(
+        q.Equals(q.Var("password"), q.Var("confirmpassword")),
+        q.Update(q.Ref(q.Collection("accounts"), q.CurrentIdentity()), {
+          credentials: {
+            password: q.Var("password"),
+          },
+        }),
+        q.Abort("Passwords do not match")
+      )
     )
   ),
 });

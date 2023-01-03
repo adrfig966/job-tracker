@@ -17,13 +17,9 @@ const RegForm = ({ onreg }) => {
       return setError("Passwords do not match");
     }
 
-    try {
-      setError("");
-      setLoading(true);
-      await signup(email, password, confirmpassword);
-    } catch {
-      setError("Failed to sign up");
-    }
+    setError("");
+    setLoading(true);
+    await signup(email, password, confirmpassword);
     setLoading(false);
   };
 

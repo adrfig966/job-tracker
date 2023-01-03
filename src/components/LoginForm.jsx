@@ -12,14 +12,11 @@ const LoginForm = ({ onlogin }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      setError("");
-      setLoading(true);
-      await login(email, password);
-      console.log(state);
-    } catch {
-      setError("Failed to log in");
-    }
+
+    setError("");
+    setLoading(true);
+    await login(email, password);
+    console.log(state);
     setLoading(false);
   };
 

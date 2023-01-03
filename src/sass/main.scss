@@ -21,6 +21,15 @@ body {
 
 header {
     @apply flex justify-between items-center mx-5 py-5;
+
+    .btn {
+        svg {
+            @apply fill-current ml-2;
+
+            height: 15px;
+            width: 15px;
+        }
+    }
 }
 
 h1,
@@ -42,7 +51,7 @@ select {
 }
 
 .btn {
-    @apply border-quaternary border text-tertiary font-bold py-2 px-4 rounded;
+    @apply inline-flex items-center border-quaternary border text-tertiary font-bold py-2 px-4 rounded;
 
     font-family: 'raleway-regular';
     letter-spacing: 2px;

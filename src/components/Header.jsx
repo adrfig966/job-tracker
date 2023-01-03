@@ -2,6 +2,9 @@ import { useState, useEffect } from "react";
 
 import { useAuth } from "../contexts/AuthContext";
 import { Modal } from "@mantine/core";
+import UserIcon from "jsx:../svg/user-solid.svg";
+import UserPlusIcon from "jsx:../svg/user-plus-solid.svg";
+import DoorIcon from "jsx:../svg/door-open-solid.svg";
 import LoginForm from "../components/LoginForm";
 import RegForm from "./RegistrationForm";
 
@@ -36,6 +39,7 @@ const Header = () => {
               onClick={() => setIsLoginOpen(true)}
             >
               Log In
+              <UserIcon />
             </button>
           )}
           {!islogged && (
@@ -44,6 +48,7 @@ const Header = () => {
               onClick={() => setIsRegOpen(true)}
             >
               Register
+              <UserPlusIcon />
             </button>
           )}
         </div>
