@@ -7,12 +7,14 @@ import UserPlusIcon from "jsx:../svg/user-plus-solid.svg";
 import DoorIcon from "jsx:../svg/door-open-solid.svg";
 import LoginForm from "../components/LoginForm";
 import RegForm from "./RegistrationForm";
+import PasswordForm from "./PasswordForm";
 
 const Header = () => {
   const { state: authstate, logout } = useAuth();
   const [islogged, setIsLogged] = useState(false);
   const [isloginopen, setIsLoginOpen] = useState(false);
   const [isregopen, setIsRegOpen] = useState(false);
+  const [isprofileopen, setIsProfileOpen] = useState(false);
 
   useEffect(() => {
     if (authstate.userclient) {
@@ -25,12 +27,21 @@ const Header = () => {
   return (
     <header className="header">
       <div className="header__logo">
-        <h1>Job Tracker</h1>
+        <h1>Application Tracker</h1>
       </div>
       <div className="header__nav">
         <div className="header-btn-group">
+          {islogged && (
+            <button
+              className="btn btn-primary ml-2"
+              onClick={() => setIsProfileOpen(true)}
+            >
+              Profile
+              <UserIcon />
+            </button>
+          )}
           {islogged ? (
-            <button className="btn btn-primary" onClick={() => logout()}>
+            <button className="btn btn-primary ml-2" onClick={() => logout()}>
               Log Out
             </button>
           ) : (
@@ -66,6 +77,13 @@ const Header = () => {
         onClose={() => setIsRegOpen(false)}
       >
         <RegForm onreg={() => setIsRegOpen(false)} />
+      </Modal>
+      <Modal
+        title={<h6>Profile</h6>}
+        opened={isprofileopen}
+        onClose={() => setIsProfileOpen(false)}
+      >
+        <PasswordForm onupdate={() => setIsProfileOpen(false)} />
       </Modal>
     </header>
   );

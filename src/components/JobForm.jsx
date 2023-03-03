@@ -17,7 +17,6 @@ const JobForm = ({
   const { apps, addApp, updateApp } = useAppsContext();
   const [company, setCompany] = useState(initialcompany);
   const [position, setPosition] = useState(initialposition);
-  const [url, setUrl] = useState(initialurl);
   const [status, setStatus] = useState(initialstatus);
   const [notes, setNotes] = useState(initialnotes);
   const [loading, setLoading] = useState(false);
@@ -97,14 +96,6 @@ const JobForm = ({
               type="text"
               value={position}
               onChange={(e) => setPosition(e.target.value)}
-            />
-          </div>
-          <div className="form-group">
-            <label>URL:</label>
-            <input
-              type="text"
-              value={url}
-              onChange={(e) => setUrl(e.target.value)}
             />
           </div>
           <div className="form-group">

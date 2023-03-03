@@ -31,7 +31,7 @@ const LoginForm = ({ onlogin }) => {
   return (
     <>
       {error && <p>{error}</p>}
-      <form className="login-form" onSubmit={handleSubmit}>
+      <form className="user-form" onSubmit={handleSubmit}>
         <div className="form-group">
           <label>Email:</label>
           <input

@@ -76,6 +76,7 @@ const ApplicationList = () => {
             <div className="application-list-item-details">
               <EditForm
                 appref={app.ref}
+                onsubmit={() => setIsUpdating("")}
                 initialposition={app.data.position}
                 initialstatus={app.data.status}
                 initialnotes={app.data.notes}

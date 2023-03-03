@@ -13,7 +13,7 @@ const client = new faunadb.Client({
 });
 
 async function setupAccountsCollection() {
-  await errorhandler(client.query(accounts.createUserSignUpFunction));
+  await errorhandler(client.query(accounts.createUpdatePasswordFunction));
 }
 
 setupAccountsCollection();

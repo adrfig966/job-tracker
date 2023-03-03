@@ -4,18 +4,15 @@ import { useAppsContext } from "../contexts/AppsContext";
 
 const EditForm = ({
   appref,
-  initialcompany = "",
   initialposition = "",
-  initialurl = "",
   initialstatus = "Applied",
   initialnotes = "",
+  onsubmit,
   currentlyediting = "status",
 }) => {
   const { state: authstate } = useAuth();
   const { updateApp } = useAppsContext();
-  const [company, setCompany] = useState(initialcompany);
   const [position, setPosition] = useState(initialposition);
-  const [url, setUrl] = useState(initialurl);
   const [status, setStatus] = useState(initialstatus);
   const [notes, setNotes] = useState(initialnotes);
   const [loading, setLoading] = useState(false);
@@ -32,6 +29,8 @@ const EditForm = ({
           status,
           notes,
         });
+
+        onsubmit();
       }
     } catch {
       setError("Failed to update job application");
@@ -54,14 +53,6 @@ const EditForm = ({
             type="text"
             value={position}
             onChange={(e) => setPosition(e.target.value)}
-          />
-        </div>
-        <div className="form-group">
-          <label>URL:</label>
-          <input
-            type="text"
-            value={url}
-            onChange={(e) => setUrl(e.target.value)}
           />
         </div>
         <div className="form-group">

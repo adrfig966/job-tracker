@@ -61,24 +61,6 @@ select {
     }
 }
 
-.application-form {
-    @apply flex flex-wrap items-center;
-
-    .form-group {
-        @apply w-full py-4;
-
-
-        input,
-        select {
-            @apply w-full;
-        }
-    }
-    
-    .form-footer {
-        @apply w-full;
-    }
-}
-
 .edit-form {
     .form-group {
         @apply w-full py-4;
@@ -98,13 +80,15 @@ select {
 .mantine-Modal-modal {
     @apply bg-primary text-tertiary;
 
-    .login-form {
-        @apply flex-col justify-center items-start;
+    .user-form,
+    .application-form {
+        @apply flex flex-col justify-center items-start;
 
         .form-group {
             @apply w-full px-0;
 
-            input {
+            input,
+            select {
                 @apply w-full;
             }
         }
@@ -114,7 +98,7 @@ select {
         }
 
         .btn {
-            @apply w-full mt-6;
+            @apply mt-6;
         }
     }
 }
@@ -130,7 +114,7 @@ select {
     }
 
     .application-status {
-        @apply text-tertiary font-bold bg-secondary inline-block px-4 py-2 rounded-full;
+        @apply text-tertiary font-bold bg-secondary inline-block px-4 py-2 mt-2 rounded-full;
 
         //font-family: 'ptsans-regular';
         font-size: 12px;
@@ -175,12 +159,4 @@ select {
 
 .summary-dashboard {
     @apply bg-primary rounded-lg shadow-lg p-6 text-tertiary mx-5;
-
-    .login-form {
-        @apply flex flex-wrap items-end;
-    
-        .form-group {
-            @apply px-4;
-        }
-    }
 }

@@ -2,49 +2,39 @@ import { query as q } from "faunadb";
 import { useState, useEffect, useRef } from "react";
 import { useAuth } from "../contexts/AuthContext";
 
-const RegForm = ({ onreg }) => {
-  const [email, setEmail] = useState("");
+const PasswordForm = ({ onupdate }) => {
   const [password, setPassword] = useState("");
   const [confirmpassword, setConfirmPassword] = useState("");
-  const [error, setError] = useState("");
+  const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
-  const { signup, state } = useAuth();
+  const { updatepassword, state } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (password !== confirmpassword) {
-      return setError("Passwords do not match");
+      return setMessage("Passwords do not match");
     }
 
-    setError("");
+    setMessage("");
     setLoading(true);
-    await signup(email, password, confirmpassword);
+    await updatepassword(password, confirmpassword);
+    setMessage("Update successful");
     setLoading(false);
   };
 
   useEffect(() => {
-    if (state.user) {
-      onreg();
-    } else if (state.error) {
-      setError("Failed to sign up");
+    if (state.error) {
+      setMessage("Failed to update password");
     }
   }, [state]);
 
   return (
     <>
-      {error && <p>{error}</p>}
+      {message && <p>{message}</p>}
       <form className="user-form" onSubmit={handleSubmit}>
         <div className="form-group">
-          <label>Email:</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </div>
-        <div className="form-group">
-          <label>Password:</label>
+          <label>New Password:</label>
           <input
             type="password"
             value={password}
@@ -60,11 +50,11 @@ const RegForm = ({ onreg }) => {
           />
         </div>
         <button className="btn" type="submit" disabled={loading}>
-          Sign Up
+          Update Password
         </button>
       </form>
     </>
   );
 };
 
-export default RegForm;
+export default PasswordForm;

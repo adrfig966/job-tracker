@@ -2,7 +2,7 @@ import { createContext, useContext, useReducer } from "react";
 import faundadb, { query as q } from "faunadb";
 
 const client = new faundadb.Client({
-  secret: process.env.REACT_APP_FAUNA_KEY_SUPER,
+  secret: process.env.REACT_APP_FAUNA_KEY,
   endpoint: process.env.REACT_APP_FAUNA_ENDPOINT,
   domain: process.env.REACT_APP_FAUNA_DOMAIN,
 });
@@ -22,12 +22,19 @@ const reducer = (state, action) => {
         ...state,
         user: action.payload,
         userclient: action.userclient,
+        error: null,
       };
     case "LOGOUT":
       return {
         ...state,
         user: null,
         userclient: null,
+        error: null,
+      };
+    case "UPDATEPASSWORD":
+      return {
+        ...state,
+        error: null,
       };
     case "ERROR":
       return {
@@ -103,8 +110,28 @@ const AuthProvider = ({ children }) => {
     }
   };
 
+  const updatepassword = async (password, confirmpassword) => {
+    try {
+      await state.userclient.query(
+        q.Call("updatepassword", password, confirmpassword)
+      );
+
+      dispatch({
+        type: "UPDATEPASSWORD",
+      });
+    } catch (error) {
+      console.log("ERROR", error.message);
+      dispatch({
+        type: "ERROR",
+        payload: error.message,
+      });
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ state, login, logout, signup }}>
+    <AuthContext.Provider
+      value={{ state, login, logout, signup, updatepassword }}
+    >
       {children}
     </AuthContext.Provider>
   );

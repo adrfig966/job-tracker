@@ -45,13 +45,12 @@ const createUserSignUpFunction = q.CreateFunction({
 
 const createUpdatePasswordFunction = q.CreateFunction({
   name: "updatepassword",
-  role: null,
   body: q.Query(
     q.Lambda(
-      ["password", "confirmpassword"],
+      ["password", "passwordconfirmation"],
       q.If(
-        q.Equals(q.Var("password"), q.Var("confirmpassword")),
-        q.Update(q.Ref(q.Collection("accounts"), q.CurrentIdentity()), {
+        q.Equals(q.Var("password"), q.Var("passwordconfirmation")),
+        q.Update(q.Identity(), {
           credentials: {
             password: q.Var("password"),
           },
