@@ -15,7 +15,7 @@ const ApplicationList = () => {
   const [loading, setLoading] = useState(true);
   const [isupdating, setIsUpdating] = useState("");
   const { state: authstate } = useAuth();
-  const { apps, getApps, deleteApp } = useAppsContext();
+  const { state: appstate, getApps, deleteApp } = useAppsContext();
 
   useEffect(() => {
     const getApplications = async () => {
@@ -28,8 +28,8 @@ const ApplicationList = () => {
   }, [authstate]);
 
   useEffect(() => {
-    console.log("Applcs updated:", apps);
-  }, [apps]);
+    console.log("Applcs updated:", appstate.apps);
+  }, [appstate]);
 
   const handleDelete = async (ref) => {
     if (authstate.userclient) {
@@ -42,10 +42,10 @@ const ApplicationList = () => {
       return <p>Log in to view your applications</p>;
     } else if (loading) {
       return <div>Loading...</div>;
-    } else if (apps.length === 0) {
+    } else if (appstate.apps.length === 0) {
       return <p>No applications found</p>;
     } else {
-      let applist = apps.map((app) => (
+      let applist = appstate.apps.map((app) => (
         <div className="application-list-item" key={app.ref.value.id}>
           <div className="application-list-item-row">
             <div className="application-summary">

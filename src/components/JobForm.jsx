@@ -14,7 +14,7 @@ const JobForm = ({
   initialnotes = "",
 }) => {
   const { state: authstate } = useAuth();
-  const { apps, addApp, updateApp } = useAppsContext();
+  const { state: appstate, addApp, updateApp } = useAppsContext();
   const [company, setCompany] = useState(initialcompany);
   const [position, setPosition] = useState(initialposition);
   const [status, setStatus] = useState(initialstatus);
@@ -30,6 +30,7 @@ const JobForm = ({
         setLoading(true);
 
         await addApp(authstate.userclient, [company, position, status, notes]);
+        setIsOpen(false);
       }
     } catch {
       setError("Failed to create job application");
@@ -38,23 +39,27 @@ const JobForm = ({
   };
 
   const handleUpdate = async () => {
-    try {
-      if (authstate.userclient) {
-        setError("");
-        setLoading(true);
-
-        await updateApp(authstate.userclient, appref, {
-          company,
-          position,
-          status,
-          notes,
-        });
-      }
-    } catch {
-      setError("Failed to update job application");
+    if (authstate.userclient) {
+      setError("");
+      setLoading(true);
+      await updateApp(authstate.userclient, appref, {
+        company,
+        position,
+        status,
+        notes,
+      });
+      setLoading(false);
+      setIsOpen(false);
     }
-    setLoading(false);
   };
+
+  useEffect(() => {
+    if (appstate.apps) {
+      setIsOpen(false);
+    } else if (appstate.error) {
+      setError("Failed to create job application");
+    }
+  }, [appstate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

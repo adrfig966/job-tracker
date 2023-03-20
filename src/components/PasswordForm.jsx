@@ -21,6 +21,7 @@ const PasswordForm = ({ onupdate }) => {
     await updatepassword(password, confirmpassword);
     setMessage("Update successful");
     setLoading(false);
+    onupdate();
   };
 
   useEffect(() => {

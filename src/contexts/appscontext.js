@@ -14,11 +14,13 @@ const reducer = (state, action) => {
       return {
         ...state,
         apps: action.payload,
+        error: null,
       };
     case "ADDAPP":
       return {
         ...state,
         apps: [...state.apps, action.payload],
+        error: null,
       };
     case "DELETEAPP":
       return {
@@ -26,6 +28,7 @@ const reducer = (state, action) => {
         apps: state.apps.filter(
           (app) => app.ref.value.id !== action.payload.ref.value.id
         ),
+        error: null,
       };
     case "UPDATEAPP":
       return {
@@ -35,6 +38,7 @@ const reducer = (state, action) => {
             ? action.payload
             : app
         ),
+        error: null,
       };
     case "ERROR":
       return {
@@ -128,8 +132,7 @@ const AppsProvider = ({ children }) => {
   return (
     <AppsContext.Provider
       value={{
-        apps: state.apps,
-        error: state.error,
+        state,
         getApps,
         addApp,
         deleteApp,

@@ -176,6 +176,7 @@ const createClientRole = q.CreateRole({
       resource: q.Collection("accounts"),
       actions: {
         read: true,
+        create: true,
       },
     },
     {
