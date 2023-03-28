@@ -43,6 +43,7 @@ const Header = () => {
           {islogged ? (
             <button className="btn btn-primary ml-2" onClick={() => logout()}>
               Log Out
+              <DoorIcon />
             </button>
           ) : (
             <button

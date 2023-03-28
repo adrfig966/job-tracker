@@ -1,17 +1,15 @@
 import { query as q } from "faunadb";
 import { useState, useEffect } from "react";
 
-import getClient from "../singletons/adminconnection";
 import { useAuth } from "../contexts/AuthContext";
 import { useAppsContext } from "../contexts/AppsContext";
 import PencilIcon from "jsx:../svg/pencil-solid.svg";
 import TrashIcon from "jsx:../svg/trash-solid.svg";
 import XIcon from "jsx:../svg/x-solid.svg";
 import EditForm from "./EditForm";
+import DeleteButton from "./DeleteButton";
 
 const ApplicationList = () => {
-  const adminClient = getClient();
-  //const [applications, setApplications] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isupdating, setIsUpdating] = useState("");
   const { state: authstate } = useAuth();
@@ -55,9 +53,7 @@ const ApplicationList = () => {
               <p className="application-status">{app.data.status}</p>
             </div>
             <div className="list-btn-group">
-              <button className="" onClick={() => handleDelete(app.ref)}>
-                <TrashIcon />
-              </button>
+              <DeleteButton ondelete={() => handleDelete(app.ref)} />
               {app.ref.value.id == isupdating ? (
                 <button className="" onClick={() => setIsUpdating("")}>
                   <XIcon />

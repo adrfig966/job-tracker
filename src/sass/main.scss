@@ -125,7 +125,11 @@ select {
     }
 
     .application-list-item-row {
-        @apply flex justify-between items-center;
+        @apply flex justify-between flex-col;
+
+        @screen lg {
+            @apply flex-row items-center;
+        }
     }
 
     .application-list-item + .application-list-item {
@@ -133,6 +137,12 @@ select {
     }
 
     .list-btn-group {
+        @apply mt-4;
+
+        @screen lg {
+            @apply mt-0;
+        }
+
         button {
             @apply border rounded border-quaternary py-1 px-2;
 
@@ -152,6 +162,10 @@ select {
 
                 height: 15px;
                 width: 15px;
+            }
+
+            &.confirm-btn {
+                @apply bg-quaternary text-tertiary;
             }
         }
     }

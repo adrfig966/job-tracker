@@ -2,10 +2,10 @@
   "name": "sequencer",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "parcel --port=3003 --no-cache public/index.html"
+    "dev": "parcel --port=3003 --no-cache public/index.html",
+    "build": "parcel build public/index.html"
   },
   "keywords": [],
   "author": "",

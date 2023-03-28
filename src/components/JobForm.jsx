@@ -9,7 +9,6 @@ const JobForm = ({
   appref,
   initialcompany = "",
   initialposition = "",
-  initialurl = "",
   initialstatus = "Applied",
   initialnotes = "",
 }) => {
@@ -36,6 +35,10 @@ const JobForm = ({
       setError("Failed to create job application");
     }
     setLoading(false);
+    setCompany("");
+    setPosition("");
+    setStatus("Applied");
+    setNotes("");
   };
 
   const handleUpdate = async () => {
