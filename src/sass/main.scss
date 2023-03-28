@@ -14,9 +14,15 @@
     src: url('../fonts/PTSans-Regular.ttf');
 }
 
+html,
+body {
+    height: 100%;
+}
 
 body {
-    @apply p-0 m-0 bg-secondary text-tertiary;
+    @apply p-0 m-0 bg-secondary text-tertiary bg-cover bg-center;
+    
+    background-image: url('../svg/liquid-cheese.svg');
 }
 
 header {
@@ -44,8 +50,8 @@ header {
         svg {
             @apply fill-current mr-2;
 
-            height: 110px;
-            width: 110px;
+            height: 90px;
+            width: 90px;
         }
     }
 }
