@@ -5,6 +5,7 @@ import { Modal } from "@mantine/core";
 import UserIcon from "jsx:../svg/user-solid.svg";
 import UserPlusIcon from "jsx:../svg/user-plus-solid.svg";
 import DoorIcon from "jsx:../svg/door-open-solid.svg";
+import BusinessIcon from "jsx:../svg/business-suitcase.svg";
 import LoginForm from "../components/LoginForm";
 import RegForm from "./RegistrationForm";
 import PasswordForm from "./PasswordForm";
@@ -27,6 +28,7 @@ const Header = () => {
   return (
     <header className="header">
       <div className="header__logo">
+        <BusinessIcon />
         <h1>Application Tracker</h1>
       </div>
       <div className="header__nav">
@@ -36,13 +38,13 @@ const Header = () => {
               className="btn btn-primary ml-2"
               onClick={() => setIsProfileOpen(true)}
             >
-              Profile
+              <span className="hidden lg:inline">Profile</span>
               <UserIcon />
             </button>
           )}
           {islogged ? (
             <button className="btn btn-primary ml-2" onClick={() => logout()}>
-              Log Out
+              <span className="hidden lg:inline">Log Out</span>
               <DoorIcon />
             </button>
           ) : (
@@ -50,7 +52,7 @@ const Header = () => {
               className="btn btn-primary"
               onClick={() => setIsLoginOpen(true)}
             >
-              Log In
+              <span className="hidden lg:inline">Log In</span>
               <UserIcon />
             </button>
           )}
@@ -59,7 +61,7 @@ const Header = () => {
               className="btn btn-primary ml-2"
               onClick={() => setIsRegOpen(true)}
             >
-              Register
+              <span className="hidden lg:inline">Register</span>
               <UserPlusIcon />
             </button>
           )}

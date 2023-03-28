@@ -24,10 +24,28 @@ header {
 
     .btn {
         svg {
-            @apply fill-current ml-2;
+            @apply fill-current;
 
-            height: 15px;
-            width: 15px;
+            font-size: 16px;
+            height: 22px;
+            width: 22px;
+
+            @screen lg {
+                @apply ml-2;
+            }
+        }
+    }
+
+    .header__logo {
+        @apply text-tertiary font-bold text-center;
+
+        font-size: 12px;
+
+        svg {
+            @apply fill-current mr-2;
+
+            height: 110px;
+            width: 110px;
         }
     }
 }
