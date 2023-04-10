@@ -1,5 +1,5 @@
 import ApplicationList from "../components/AppList";
-import LoginForm from "../components/LoginForm";
+import ApplicationStats from "../components/Stats";
 import JobForm from "../components/JobForm";
 import Header from "../components/Header";
 
@@ -9,6 +9,7 @@ export default function Layout() {
       <Header />
       <div className="summary-dashboard">
         <ApplicationList />
+        <ApplicationStats />
         <JobForm />
       </div>
     </>

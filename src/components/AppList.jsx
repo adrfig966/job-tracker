@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { useAppsContext } from "../contexts/AppsContext";
 import PencilIcon from "jsx:../svg/pencil-solid.svg";
-import TrashIcon from "jsx:../svg/trash-solid.svg";
 import XIcon from "jsx:../svg/x-solid.svg";
 import EditForm from "./EditForm";
 import DeleteButton from "./DeleteButton";

@@ -66,11 +66,11 @@ const EditForm = ({
         </div>
         <div className="form-group">
           <label>Notes:</label>
-          <input
-            type="text"
+          <textarea
             value={notes}
             onChange={(e) => setNotes(e.target.value)}
-          />
+            rows="8"
+          ></textarea>
         </div>
         <div className="form-footer">
           <button className="btn" type="submit" disabled={loading}>
